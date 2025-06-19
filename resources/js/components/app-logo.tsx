@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import AppLogoIcon from './app-logo-icon';
 
 interface AppLogoProps {
@@ -5,36 +6,48 @@ interface AppLogoProps {
 }
 
 export default function AppLogo({ isScrolled = false }: AppLogoProps) {
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex cursor-default items-center gap-2.5" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
             <div className="relative">
                 <div
-                    className={`flex aspect-square size-11 items-center justify-center rounded-2xl transition-all duration-300 ${
+                    className={`flex aspect-square size-10 items-center justify-center rounded-xl transition-all duration-500 ${
                         isScrolled
-                            ? 'bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                            : 'bg-gradient-to-br from-red-600 via-red-500 to-purple-600 shadow-[0_4px_12px_rgba(220,38,38,0.2)]'
-                    }`}
+                            ? 'bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)]'
+                            : 'bg-gradient-to-br from-red-700 via-amber-700 to-violet-700 shadow-[0_4px_20px_rgba(67,56,202,0.25)]'
+                    } ${isHovered ? 'rotate-6' : ''}`}
                 >
-                    <AppLogoIcon className="size-7" isScrolled={isScrolled} />
+                    <AppLogoIcon className="size-6" isScrolled={isScrolled} isHovered={isHovered} />
                 </div>
+
+                {/* Subtle shine effect */}
                 <div
-                    className={`absolute -right-1 -bottom-1 size-3.5 rounded-full backdrop-blur-sm transition-all duration-300 ${
-                        isScrolled ? 'bg-gray-50' : 'bg-white/30'
+                    className={`pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-b from-white/10 to-transparent transition-opacity duration-300 ${
+                        isScrolled ? 'opacity-30' : 'opacity-50'
                     }`}
                 />
             </div>
-            <div className="flex flex-col">
+
+            <div className="flex flex-col overflow-hidden">
                 <span
-                    className={`text-2xl font-bold tracking-tight transition-colors duration-300 ${
-                        isScrolled ? 'text-gray-900' : 'bg-gradient-to-r from-white to-white/90 bg-clip-text text-transparent'
-                    }`}
+                    className={`text-[22px] font-bold tracking-tight transition-all duration-500 ${
+                        isScrolled ? 'text-gray-900' : 'text-gray-400'
+                    } ${isHovered ? 'translate-x-[1.5px]' : ''}`}
+                    style={{
+                        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                        fontWeight: 800,
+                    }}
                 >
-                    Isolated
+                    ISOLATED
                 </span>
                 <span
-                    className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isScrolled ? 'text-gray-600' : 'text-white/80'}`}
+                    className={`text-[10px] font-semibold tracking-wider transition-all duration-500 ${
+                        isScrolled ? 'text-gray-400' : 'text-gray-400'
+                    } ${isHovered ? 'translate-x-[1px]' : ''}`}
+                    style={{ letterSpacing: '0.15em' }}
                 >
-                    Solutions
+                    SOLUTIONS
                 </span>
             </div>
         </div>
