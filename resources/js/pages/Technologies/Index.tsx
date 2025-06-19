@@ -1,5 +1,6 @@
+import PageLayout from "@/layouts/page-layout";
+import MaxWidthWrapper from "@/ui/MaxWidthWrapper";
 import { Head } from "@inertiajs/react";
-import Navbar from "@/Components/Navbar";
 import {
     Code,
     Cloud,
@@ -10,13 +11,12 @@ import {
     Smartphone,
     Settings,
 } from "lucide-react";
-import MaxWidthWrapper from "../../../ui/MaxWidthWrapper";
 
 export default function TechnologiesIndex() {
     return (
-        <>
+        <PageLayout>
             <Head title="Our Technologies" />
-            <Navbar>
+    
                 {/* Hero Section */}
                 <section className="relative py-24 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] animate-pulse-slow"></div>
@@ -232,7 +232,7 @@ export default function TechnologiesIndex() {
                         </div>
                     </MaxWidthWrapper>
                 </section>
-            </Navbar>
-        </>
+   
+        </PageLayout>
     );
 }

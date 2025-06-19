@@ -1,5 +1,5 @@
 import { Head } from "@inertiajs/react";
-import Navbar from "@/Components/Navbar";
+
 import MaxWidthWrapper from "@/ui/MaxWidthWrapper";
 import {
     Settings,
@@ -11,12 +11,13 @@ import {
     Database,
     Layers,
 } from "lucide-react";
+import PageLayout from "@/layouts/page-layout";
 
 export default function CMS() {
     return (
-        <>
+        <PageLayout>
             <Head title="Content Management Systems" />
-            <Navbar>
+     
                 {/* Hero Section */}
                 <section className="relative py-24 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] animate-pulse-slow"></div>
@@ -181,7 +182,7 @@ export default function CMS() {
                         </div>
                     </MaxWidthWrapper>
                 </section>
-            </Navbar>
-        </>
+     
+        </PageLayout>
     );
 }

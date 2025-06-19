@@ -1,6 +1,6 @@
+import PageLayout from "@/layouts/page-layout";
+import MaxWidthWrapper from "@/ui/MaxWidthWrapper";
 import { Head } from "@inertiajs/react";
-import Navbar from "@/Components/Navbar";
-import MaxWidthWrapper from "../../../ui/MaxWidthWrapper";
 import {
     Code,
     Layers,
@@ -15,9 +15,9 @@ import {
 
 export default function FullStack() {
     return (
-        <>
+        <PageLayout>
             <Head title="Full Stack Technologies" />
-            <Navbar>
+ 
                 {/* Hero Section */}
                 <section className="relative py-24 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] animate-pulse-slow"></div>
@@ -180,7 +180,7 @@ export default function FullStack() {
                         </div>
                     </MaxWidthWrapper>
                 </section>
-            </Navbar>
-        </>
+    
+        </PageLayout>
     );
 }

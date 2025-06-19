@@ -1,7 +1,7 @@
 import PageLayout from '@/layouts/page-layout';
 import MaxWidthWrapper from '@/ui/MaxWidthWrapper';
 import { Head } from '@inertiajs/react';
-import { ArrowRight, BarChart, Code, Globe, Layers, Layout, Palette, Settings, Shield, Zap } from 'lucide-react';
+import {  BarChart, Code,  Layers, Layout, Palette, Settings, Shield, Zap } from 'lucide-react';
 
 export default function Frontend() {
     return (

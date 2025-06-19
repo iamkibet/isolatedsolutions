@@ -1,7 +1,7 @@
 import PageLayout from '@/layouts/page-layout';
 import MaxWidthWrapper from '@/ui/MaxWidthWrapper';
 import { Head } from '@inertiajs/react';
-import { BarChart, Code, Database, Globe, Layers, Server, Settings, Shield, Zap } from 'lucide-react';
+import { BarChart, Code, Database, Layers, Server, Settings, Shield, Zap } from 'lucide-react';
 
 export default function Backend() {
     return (
