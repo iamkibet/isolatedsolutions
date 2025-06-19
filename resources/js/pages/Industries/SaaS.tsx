@@ -1,6 +1,6 @@
+import PageLayout from "@/layouts/page-layout";
+import MaxWidthWrapper from "@/ui/MaxWidthWrapper";
 import { Head } from "@inertiajs/react";
-import Navbar from "@/Components/Navbar";
-import MaxWidthWrapper from "../../../ui/MaxWidthWrapper";
 import {
     Cloud,
     Users,
@@ -16,9 +16,9 @@ import {
 
 export default function SaaS() {
     return (
-        <>
+        <PageLayout>
             <Head title="SaaS Solutions" />
-            <Navbar>
+  
                 {/* Hero Section with Enhanced Content */}
                 <section className="relative min-h-[700px] bg-gradient-to-br from-gray-900 to-black overflow-hidden">
                     <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] animate-pulse-slow"></div>
@@ -245,7 +245,7 @@ export default function SaaS() {
                         </div>
                     </MaxWidthWrapper>
                 </section>
-            </Navbar>
-        </>
+            </PageLayout>
+
     );
 }
