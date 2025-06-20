@@ -18,7 +18,7 @@ export default function AppLogo({ isScrolled = false }: AppLogoProps) {
                             : 'bg-gradient-to-br from-red-700 via-amber-700 to-violet-700 shadow-[0_4px_20px_rgba(67,56,202,0.25)]'
                     } ${isHovered ? 'rotate-6' : ''}`}
                 >
-                    <AppLogoIcon className="size-6" isScrolled={isScrolled} isHovered={isHovered} />
+                    <AppLogoIcon className="size-6" isScrolled={isScrolled} />
                 </div>
 
                 {/* Subtle shine effect */}

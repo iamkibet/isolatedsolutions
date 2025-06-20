@@ -9,9 +9,9 @@ import json from 'highlight.js/lib/languages/json';
 import typescript from 'highlight.js/lib/languages/typescript';
 import html from 'highlight.js/lib/languages/xml';
 import 'highlight.js/styles/github.css';
-import { Calendar, EditIcon, Eye, User } from 'lucide-react';
+import { Calendar, Check, Copy, EditIcon, Eye, Facebook, Linkedin, Link as LinkIcon, Share2, Twitter, User } from 'lucide-react';
 import MarkdownIt from 'markdown-it';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import 'react-markdown-editor-lite/lib/index.css';
 
@@ -140,6 +140,113 @@ const Show: React.FC<Props> = ({ post, likes_count, dislikes_count, user_reactio
         );
     };
 
+    // Share/copy state and handlers
+    const [showShareMenu, setShowShareMenu] = useState(false);
+    const [copySuccess, setCopySuccess] = useState(false);
+    const linkRef = useRef<HTMLInputElement>(null);
+
+    const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const title = `${post.title} by ${post.user.name}`;
+
+    const handleCopyLink = () => {
+        if (linkRef.current) {
+            linkRef.current.select();
+            document.execCommand('copy');
+            setCopySuccess(true);
+            toast.success('Link copied to clipboard!');
+            setTimeout(() => {
+                setCopySuccess(false);
+                setShowShareMenu(false);
+            }, 2000);
+        }
+    };
+
+    const shareConfig = [
+        {
+            name: 'Twitter',
+            icon: <Twitter className="h-4 w-4 text-[#1DA1F2]" />,
+            url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`,
+        },
+        {
+            name: 'Facebook',
+            icon: <Facebook className="h-4 w-4 text-[#1877F2]" />,
+            url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+        },
+        {
+            name: 'LinkedIn',
+            icon: <Linkedin className="h-4 w-4 text-[#0A66C2]" />,
+            url: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`,
+        },
+    ];
+
+    // ShareButton component
+    const ShareButton = () => (
+        <div className="relative">
+            <button
+                onClick={() => setShowShareMenu(!showShareMenu)}
+                className="flex items-center space-x-1.5 rounded-full bg-white px-3.5 py-2 text-sm font-medium text-gray-600 ring-1 ring-gray-200 transition-all hover:bg-gray-50"
+            >
+                <Share2 className="h-4 w-4" />
+                <span>Share</span>
+            </button>
+
+            {showShareMenu && (
+                <div className="absolute right-0 z-10 mt-2 w-72 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-200">
+                    <div className="border-b border-gray-100 p-4">
+                        <h3 className="font-medium text-gray-900">Share this post</h3>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 p-4">
+                        {shareConfig.map((platform) => (
+                            <a
+                                key={platform.name}
+                                href={platform.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex flex-col items-center justify-center rounded-lg p-3 transition-colors hover:bg-gray-50"
+                            >
+                                <div className="mb-2 rounded-full bg-gray-100 p-2.5">{platform.icon}</div>
+                                <span className="text-xs font-medium">{platform.name}</span>
+                            </a>
+                        ))}
+                    </div>
+                    <div className="border-t border-gray-100 bg-gray-50 p-4">
+                        <label className="mb-1.5 block text-xs font-medium text-gray-500">Copy link</label>
+                        <div className="flex">
+                            <div className="relative flex-1">
+                                <input
+                                    ref={linkRef}
+                                    type="text"
+                                    value={shareUrl}
+                                    readOnly
+                                    className="w-full rounded-l-lg border border-r-0 border-gray-300 px-3 py-2 text-sm focus:outline-none"
+                                />
+                                <LinkIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                            </div>
+                            <button
+                                onClick={handleCopyLink}
+                                className={`flex items-center rounded-r-lg px-3 py-2 text-sm font-medium transition-colors ${
+                                    copySuccess ? 'bg-green-500 text-white' : 'bg-gray-800 text-white hover:bg-gray-700'
+                                }`}
+                            >
+                                {copySuccess ? (
+                                    <>
+                                        <Check className="mr-1.5 h-4 w-4" />
+                                        Copied
+                                    </>
+                                ) : (
+                                    <>
+                                        <Copy className="mr-1.5 h-4 w-4" />
+                                        Copy
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
     return (
         <PageLayout>
             <article className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-12">
@@ -180,31 +287,31 @@ const Show: React.FC<Props> = ({ post, likes_count, dislikes_count, user_reactio
                         </div>
 
                         <h1 className="mb-5 scroll-mt-24 text-4xl font-bold text-gray-900 sm:text-5xl md:text-[3.2rem] md:leading-[1.15]">
-                                {post.title}
-                                <span className="mt-4 block h-1.5 w-20 bg-gradient-to-r from-red-400 to-orange-300 sm:mt-5 sm:h-2 sm:w-24"></span>
-                            </h1>
+                            {post.title}
+                            <span className="mt-4 block h-1.5 w-20 bg-gradient-to-r from-red-400 to-orange-300 sm:mt-5 sm:h-2 sm:w-24"></span>
+                        </h1>
 
-                            <div className="mb-8 flex flex-wrap items-center gap-4">
-                                {post.category && (
-                                    <div className="inline-flex items-center rounded-full bg-gradient-to-r from-red-50 to-orange-50 px-4 py-1.5 text-sm font-medium text-red-600 shadow-sm">
-                                        {post.category.name}
-                                    </div>
-                                )}
-
-                                {post.tags.length > 0 && (
-                                    <div className="flex flex-wrap gap-2">
-                                        {post.tags.map((tag) => (
-                                            <div
-                                                key={tag.id}
-                                                className="rounded-full bg-gray-50 px-3.5 py-1.5 text-xs font-medium text-gray-600 transition-colors"
-                                            >
-                                                <span className="text-red-500">#</span>
-                                                {tag.name}
-                                            </div>
-                                        ))}
-                                    </div>
+                        <div className="mb-8 flex flex-wrap items-center gap-4">
+                            {post.category && (
+                                <div className="inline-flex items-center rounded-full bg-gradient-to-r from-red-50 to-orange-50 px-4 py-1.5 text-sm font-medium text-red-600 shadow-sm">
+                                    {post.category.name}
+                                </div>
                             )}
-                            </div>
+
+                            {post.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-2">
+                                    {post.tags.map((tag) => (
+                                        <div
+                                            key={tag.id}
+                                            className="rounded-full bg-gray-50 px-3.5 py-1.5 text-xs font-medium text-gray-600 transition-colors"
+                                        >
+                                            <span className="text-red-500">#</span>
+                                            {tag.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </header>
 
                     {/* Content Section */}
@@ -225,13 +332,13 @@ const Show: React.FC<Props> = ({ post, likes_count, dislikes_count, user_reactio
                                     active={user_reaction === 'like'}
                                     onClick={() => handleReaction('like')}
                                 />
-
                                 <ReactionButton
                                     type="dislike"
                                     count={dislikes_count}
                                     active={user_reaction === 'dislike'}
                                     onClick={() => handleReaction('dislike')}
                                 />
+                                <ShareButton />
                             </div>
 
                             {auth.user && auth.user.id === post.user.id && (
